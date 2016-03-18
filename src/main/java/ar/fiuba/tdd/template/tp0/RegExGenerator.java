@@ -1,24 +1,37 @@
 package ar.fiuba.tdd.template.tp0;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class RegExGenerator {
-    // TODO: Uncomment this field
-    //private int maxLength;
 
-    //public RegExGenerator(int maxLength) {
-    //    this.maxLength = maxLength;
-    //}
+    private int maxLength;
 
-    // TODO: Uncomment parameters
-    public List<String> generate(/*String regEx, int numberOfResults*/) {
-        return new ArrayList<String>() {
-            {
-                add("a");
-                add("b");
-                add("c");
-            }
-        };
+    public RegExGenerator(int maxLength) {
+
+        this.maxLength = maxLength;
     }
+
+    public List<String> generate(String regEx, int numberOfResults) {
+
+        List<String> regExList = new ArrayList<>();
+
+        for (int i = 0; i < numberOfResults; i++) {
+            String regExGenerated = this.generateToken(regEx);
+            regExList.add(regExGenerated);
+        }
+
+        return regExList;
+    }
+
+    private String generateToken(String regEx) {
+        int random = (int) (Math.random() * regEx.length());
+
+        if (random > this.maxLength) {
+            return Character.toString(regEx.charAt(maxLength));
+        }
+        return Character.toString(regEx.charAt(random));
+    }
+
 }
