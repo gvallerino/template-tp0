@@ -37,11 +37,13 @@ public class RegExGeneratorTest {
     public void testMultipleCharacters() {
         assertTrue(validate("...", 1));
     }
-    /*
+
     @Test
     public void testLiteral() {
         assertTrue(validate("\\@", 1));
     }
+
+    /*
     @Test
     public void testLiteralDotCharacter() {
         assertTrue(validate("\\@..", 1));
