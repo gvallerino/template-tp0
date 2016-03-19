@@ -27,7 +27,7 @@ public class RegExGeneratorTest {
                         },
                         (item1, item2) -> item1 && item2);
     }
-    
+
     @Test
     public void testAnyCharacter() {
         assertTrue(validate(".", 1));
@@ -57,12 +57,12 @@ public class RegExGeneratorTest {
     public void testCharacterSet() {
         assertTrue(validate("[abc]", 1));
     }
-    /*
+
     @Test
     public void testCharacterSetWithQuantifiers() {
         assertTrue(validate("[abc]+", 1));
     }
-
+    /*
         @Test
     public void testEnunciado() {
         String regEx = "..+[ab]*d?c";
