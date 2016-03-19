@@ -43,11 +43,11 @@ public class RegExGeneratorTest {
         assertTrue(validate("\\@", 1));
     }
 
-    /*
     @Test
     public void testLiteralDotCharacter() {
         assertTrue(validate("\\@..", 1));
     }
+    /*
     @Test
     public void testZeroOrOneCharacter() {
         assertTrue(validate("\\@.h?", 1));
