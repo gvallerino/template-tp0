@@ -35,14 +35,16 @@ public class RegExGenerator {
 
     public List<String> generate(String regEx, int numberOfResults) {
 
-        this.regEx = regEx;
-        this.tokenizerRegEx();
         List<String> regExList = new ArrayList<>();
+        this.regEx = regEx;
+
+        this.tokenizerRegEx();
 
         for (int i = 0; i < numberOfResults; i++) {
 
             String regExGenerated = this.generateToken();
             regExList.add(regExGenerated);
+            System.out.println(regExGenerated);
         }
 
         return regExList;
@@ -122,46 +124,58 @@ public class RegExGenerator {
         }
 
         StringBuilder regExGenerated = new StringBuilder();
-
         for (int i = 0; i < quantifiersList.size(); i++) {
 
-            //get code ascii
-            String characters = ("".equals(tokensList.get(i)) ? "H" : tokensList.get(i));
+            String characters = ("".equals(tokensList.get(i)) ? this.getCharRandomAscii() : tokensList.get(i));
             String quantifier = quantifiersList.get(i);
 
             int min = this.getMinLimitRandomByQuantifier(quantifier);
             int max = this.getMaxLimitRandomByQuantifier(quantifier);
-            regExGenerated.append(this.getCharRandomWithRange(characters, min, max));
+            String charsGenerated = this.getCharRandomWithRangeByCharacters(characters, min, max);
+            regExGenerated.append(charsGenerated);
         }
 
         return regExGenerated.toString();
     }
 
-    private String getCharRandomWithRange(String characters, int min, int max) {
+    private String getCharRandomWithRangeByCharacters(String characters, int min, int max) {
 
         StringBuilder character = new StringBuilder();
         if (min >= max) {
             character.append(characters);
 
         } else {
-            int largeChar = characters.length();
-            for (int j = min; j < max; j++) {
 
-                Random random = new Random();
-                int randomInt = random.nextInt(largeChar) + min;
-                //int randomInt = random.nextInt(max - min) + min;
-                character.append(characters.charAt(randomInt));
+            int range = this.getNumberRandom(min, max);
+            for (int j = 0; j < range; j++) {
+
+                int largeChar = characters.length();
+                int indexCharacters = this.getNumberRandom(0, largeChar);
+                character.append(characters.charAt(indexCharacters));
             }
         }
 
         return character.toString();
     }
 
+    private int getNumberRandom(int min, int max) {
+        Random random = new Random();
+        return random.nextInt(max - min) + min;
+    }
+
+    private String getCharRandomAscii() {
+        int minAscii = 32;
+        int maxAscii = 127;
+
+        int randomInt = this.getNumberRandom(minAscii, maxAscii);
+        return Character.toString((char)randomInt);
+    }
+
     private String getNextCharacter(int index) {
 
         int nextIndex = index + 1;
         if (nextIndex >= regEx.length()) {
-            return "";
+            return null;
         }
         return Character.toString(regEx.charAt(nextIndex));
     }
