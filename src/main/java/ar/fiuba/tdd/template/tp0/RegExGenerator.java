@@ -44,7 +44,6 @@ public class RegExGenerator {
 
             String regExGenerated = this.generateToken();
             regExList.add(regExGenerated);
-            System.out.println(regExGenerated);
         }
 
         return regExList;
@@ -140,9 +139,17 @@ public class RegExGenerator {
 
     private String getCharRandomWithRangeByCharacters(String characters, int min, int max) {
 
-        StringBuilder character = new StringBuilder();
+        StringBuilder characterBd = new StringBuilder();
         if (min >= max) {
-            character.append(characters);
+
+            if (characters.length() > 1) {
+
+                int largeChar = characters.length();
+                int indexCharacters = this.getNumberRandom(0, largeChar);
+                characterBd.append(characters.charAt(indexCharacters));
+            } else {
+                characterBd.append(characters);
+            }
 
         } else {
 
@@ -151,11 +158,11 @@ public class RegExGenerator {
 
                 int largeChar = characters.length();
                 int indexCharacters = this.getNumberRandom(0, largeChar);
-                character.append(characters.charAt(indexCharacters));
+                characterBd.append(characters.charAt(indexCharacters));
             }
         }
 
-        return character.toString();
+        return characterBd.toString();
     }
 
     private int getNumberRandom(int min, int max) {
