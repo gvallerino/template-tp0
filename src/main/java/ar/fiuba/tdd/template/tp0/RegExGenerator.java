@@ -157,7 +157,7 @@ public class RegExGenerator {
             for (int j = 0; j < range; j++) {
 
                 int largeChar = characters.length();
-                int indexCharacters = this.getNumberRandom(0, largeChar);
+                int indexCharacters = this.getNumberRandom(0, largeChar - 1);
                 characterBd.append(characters.charAt(indexCharacters));
             }
         }
@@ -167,7 +167,7 @@ public class RegExGenerator {
 
     private int getNumberRandom(int min, int max) {
         Random random = new Random();
-        return random.nextInt(max - min) + min;
+        return random.nextInt(1 + max - min) + min;
     }
 
     private String getCharRandomAscii() {
