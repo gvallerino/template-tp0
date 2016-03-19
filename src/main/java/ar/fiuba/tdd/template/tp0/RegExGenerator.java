@@ -145,7 +145,7 @@ public class RegExGenerator {
             if (characters.length() > 1) {
 
                 int largeChar = characters.length();
-                int indexCharacters = this.getNumberRandom(0, largeChar);
+                int indexCharacters = this.getNumberRandom(0, largeChar - 1);
                 characterBd.append(characters.charAt(indexCharacters));
             } else {
                 characterBd.append(characters);
