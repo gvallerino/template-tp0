@@ -115,6 +115,21 @@ public class RegExGeneratorTest {
         assertTrue(isResultValid);
     }
 
+    @Test
+    public void testLiteralEscaped() {
+        assertTrue(validate("\\\\", 1));
+    }
+
+    @Test
+    public void testLiteralDot() {
+        assertTrue(validate("\\.", 1));
+    }
+
+    @Test
+    public void testLiteralSetWithFourMatches() {
+        assertTrue(validate("[abc]?", 4));
+    }
+
     private String getStringGenerated(String regEx) {
         RegExGenerator generator = new RegExGenerator(10);
         return generator.generate(regEx,1).get(0);

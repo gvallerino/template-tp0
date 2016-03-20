@@ -18,7 +18,7 @@ public class RegExGenerator {
     private Boolean literalIsActive = Boolean.FALSE;
     private Boolean setIsActive = Boolean.FALSE;
 
-    private static final String POINT = ".";
+    private static final String DOT = ".";
     private static final String SQUARE_BRACKET_OPEN = "[";
     private static final String SQUARE_BRACKET_CLOSE = "]";
     private static final String BACKSLASH = "\\";
@@ -93,7 +93,7 @@ public class RegExGenerator {
 
     private void saveCharAndQuantifier() {
 
-        if (POINT.equals(character)) {
+        if (DOT.equals(character)) {
             tokensList.add("");
             quantifiersList.add(this.characterIsQuantifier(nextCharacter) ? nextCharacter : "");
 
@@ -172,7 +172,7 @@ public class RegExGenerator {
 
     private String getCharRandomAscii() {
         int minAscii = 32;
-        int maxAscii = 127;
+        int maxAscii = 255;
 
         int randomInt = this.getNumberRandom(minAscii, maxAscii);
         return Character.toString((char)randomInt);
@@ -195,11 +195,11 @@ public class RegExGenerator {
     }
 
     private Boolean characterIsSpecial(String character) {
-        Boolean isPoint = POINT.equals(character);
+        Boolean isDot = DOT.equals(character);
         Boolean isSquareOpen = SQUARE_BRACKET_OPEN.equals(character);
         Boolean isSquareClose = SQUARE_BRACKET_CLOSE.equals(character);
         Boolean isBacklash = BACKSLASH.equals(character);
-        return (isPoint || isSquareOpen || isSquareClose || isBacklash);
+        return (isDot || isSquareOpen || isSquareClose || isBacklash);
     }
 
     private int getMinLimitRandomByQuantifier(String quantifier) {
