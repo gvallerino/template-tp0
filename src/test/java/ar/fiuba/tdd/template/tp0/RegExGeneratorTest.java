@@ -62,14 +62,62 @@ public class RegExGeneratorTest {
     public void testCharacterSetWithQuantifiers() {
         assertTrue(validate("[abc]+", 1));
     }
-    /*
-        @Test
-    public void testEnunciado() {
-        String regEx = "..+[ab]*d?c";
-        assertTrue(validate(regEx,1));
+
+
+    @Test
+    public void testNumbersOfResultsByQuantifierQuestionMark() {
+        String result = this.getStringGenerated("a?");
+        assertTrue(result.length() <= 1);
     }
 
-    */
-    // TODO: Add more tests!!!
-}
+    @Test
+    public void testResultByQuantifierQuestionMark() {
+        String result = this.getStringGenerated("a?");
+        boolean isResultValid = (result.length() == 0 ? "".equals(result) : "a".equals(result));
+        assertTrue(isResultValid);
+    }
 
+    @Test
+    public void testNumbersOfResultsByQuantifierAsterisk() {
+        String result = this.getStringGenerated("a*");
+        assertTrue(result.length() >= 0);
+    }
+
+    @Test
+    public void testResultByQuantifierAsterisk() {
+        String result = this.getStringGenerated("a*");
+        boolean isResultValid = true;
+
+        if (result.length() == 0) {
+            isResultValid =  "".equals(result);
+        } else {
+            for (int i = 0; i < result.length() && isResultValid; i++) {
+                isResultValid = ("a".equals(Character.toString(result.charAt(i))));
+            }
+        }
+        assertTrue(isResultValid);
+    }
+
+    @Test
+    public void testNumbersOfResultsByQuantifierPlus() {
+        String result = this.getStringGenerated("a+");
+        assertTrue(result.length() >= 1);
+    }
+
+    @Test
+    public void testResultByQuantifierPlus() {
+        String result = this.getStringGenerated("a+");
+        boolean isResultValid = true;
+
+        for (int i = 0; i < result.length() && isResultValid; i++) {
+            isResultValid = ("a".equals(Character.toString(result.charAt(i))));
+        }
+        assertTrue(isResultValid);
+    }
+
+    private String getStringGenerated(String regEx) {
+        RegExGenerator generator = new RegExGenerator(10);
+        return generator.generate(regEx,1).get(0);
+    }
+
+}
