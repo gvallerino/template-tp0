@@ -63,6 +63,10 @@ public class RegExGeneratorTest {
         assertTrue(validate("[abc]+", 1));
     }
 
+    private String getStringGenerated(String regEx) {
+        RegExGenerator generator = new RegExGenerator(10);
+        return generator.generate(regEx,1).get(0);
+    }
 
     @Test
     public void testNumbersOfResultsByQuantifierQuestionMark() {
@@ -126,13 +130,13 @@ public class RegExGeneratorTest {
     }
 
     @Test
-    public void testLiteralSetWithFourMatches() {
+    public void testSetWithFourMatches() {
         assertTrue(validate("[abc]?", 4));
     }
 
-    private String getStringGenerated(String regEx) {
-        RegExGenerator generator = new RegExGenerator(10);
-        return generator.generate(regEx,1).get(0);
+    @Test
+    public void testExample() {
+        assertTrue(validate("..[ab]*d?c", 10));
     }
 
 }

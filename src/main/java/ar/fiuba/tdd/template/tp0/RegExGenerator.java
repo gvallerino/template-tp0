@@ -171,10 +171,13 @@ public class RegExGenerator {
     }
 
     private String getCharRandomAscii() {
-        int minAscii = 32;
+        int minAscii = 0;
         int maxAscii = 255;
 
         int randomInt = this.getNumberRandom(minAscii, maxAscii);
+        while (randomInt == 10 || randomInt == 13 || randomInt == 133) {
+            randomInt = this.getNumberRandom(minAscii, maxAscii);
+        }
         return Character.toString((char)randomInt);
     }
 
