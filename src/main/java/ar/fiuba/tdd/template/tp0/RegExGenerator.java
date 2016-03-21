@@ -33,12 +33,17 @@ public class RegExGenerator {
         this.maxLength = maxLength;
     }
 
-    public List<String> generate(String regEx, int numberOfResults) {
+    public List<String> generate(String regEx, int numberOfResults) throws Exception {
 
         List<String> regExList = new ArrayList<>();
-        this.regEx = regEx;
 
+        this.validate(regEx);
+
+        this.regEx = regEx;
         this.tokenizerRegEx();
+
+        literalIsActive = false;
+        setIsActive = false;
 
         for (int i = 0; i < numberOfResults; i++) {
 
@@ -49,7 +54,7 @@ public class RegExGenerator {
         return regExList;
     }
 
-    private void tokenizerRegEx() {
+    private void tokenizerRegEx() throws Exception {
 
         tokensList = new ArrayList<>();
         quantifiersList = new ArrayList<>();
@@ -63,12 +68,14 @@ public class RegExGenerator {
 
             if (!this.characterIsQuantifier(character)) {
                 set = this.processCharNotQuantifier(set);
+            } else {
+                this.verifyCharacter(character, nextCharacter);
             }
         }
 
     }
 
-    private StringBuilder processCharNotQuantifier(StringBuilder set) {
+    private StringBuilder processCharNotQuantifier(StringBuilder set) throws Exception {
 
         if (literalIsActive) {
             tokensList.add(character);
@@ -76,13 +83,19 @@ public class RegExGenerator {
             quantifiersList.add(this.characterIsQuantifier(nextCharacter) ? nextCharacter : "");
 
         } else {
+
+            if (setIsActive) {
+                this.verifyCharacter(SQUARE_BRACKET_OPEN, character);
+            }
+
             literalIsActive = BACKSLASH.equals(character);
             setIsActive = (setIsActive || SQUARE_BRACKET_OPEN.equals(character));
 
             if (setIsActive) {
-
                 set = this.processSet(set);
                 setIsActive = !(SQUARE_BRACKET_CLOSE.equals(character));
+            } else {
+                this.verifyCharacter(SQUARE_BRACKET_CLOSE, character);
             }
 
             this.saveCharAndQuantifier();
@@ -223,6 +236,18 @@ public class RegExGenerator {
             max = maxLength;
         }
         return max;
+    }
+
+    private void verifyCharacter(String token, String character) throws Exception {
+        if (token.equals(character)) {
+            throw new Exception("Regular expression incorrect");
+        }
+    }
+
+    private void validate(String regEx) throws Exception {
+        if (regEx == null || regEx.length() == 0) {
+            throw new Exception("Regular expression incorrect");
+        }
     }
 
 }

@@ -15,7 +15,13 @@ public class RegExGeneratorTest {
         int maxLength = 10;
         RegExGenerator generator = new RegExGenerator(maxLength);
 
-        List<String> results = generator.generate(regEx, numberOfResults);
+        List<String> results = null;
+        try {
+            results = generator.generate(regEx, numberOfResults);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         // force matching the beginning and the end of the strings
         Pattern pattern = Pattern.compile("^" + regEx + "$");
         return results
@@ -65,7 +71,12 @@ public class RegExGeneratorTest {
 
     private String getStringGenerated(String regEx) {
         RegExGenerator generator = new RegExGenerator(10);
-        return generator.generate(regEx,1).get(0);
+        try {
+            return generator.generate(regEx,1).get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Test
@@ -137,6 +148,48 @@ public class RegExGeneratorTest {
     @Test
     public void testExample() {
         assertTrue(validate("..[ab]*d?c", 10));
+    }
+
+    @Test
+    public void testRegExNullShouldBeNull() {
+        String result = this.getStringGenerated(null);
+        assertTrue(result == null);
+    }
+
+    @Test
+    public void testRegExEmptyShouldBeNull() {
+        String result = this.getStringGenerated(null);
+        assertTrue(result == null);
+    }
+
+    @Test
+    public void testRegExIncorrectByDoubleSquareOpenShouldBeNull() {
+        String result = this.getStringGenerated("abc[s[ab]");
+        assertTrue(result == null);
+    }
+
+    @Test
+    public void testRegExIncorrectByDoubleSquareCloseShouldBeNull() {
+        String result = this.getStringGenerated("abc[ab]s]");
+        assertTrue(result == null);
+    }
+
+    @Test
+    public void testRegExIncorrectByDoubleQuantifierPlusShouldBeNull() {
+        String result = this.getStringGenerated("abc[ab]s++w");
+        assertTrue(result == null);
+    }
+
+    @Test
+    public void testRegExIncorrectByDoubleQuantifierAsteriskShouldBeNull() {
+        String result = this.getStringGenerated("abc**w");
+        assertTrue(result == null);
+    }
+
+    @Test
+    public void testRegExIncorrectByDoubleQuantifierQuestionMarkShouldBeNull() {
+        String result = this.getStringGenerated("a??b");
+        assertTrue(result == null);
     }
 
 }
